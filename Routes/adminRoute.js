@@ -1,5 +1,6 @@
-<<<<<<< HEAD
-const router = require("express").Router();
+
+const express = require("express");
+const router = express.Router();
 
 const User = require("../Models/userModel.js");
 const { verifyToken } = require("../utlis/generateToken.js");
@@ -74,6 +75,3 @@ router.delete("/allusers",async(req,res)=>{
 })
 
 module.exports = router;
-=======
-
->>>>>>> 5ef6869d81326e6aa7e722ed580aa4ae6cf71e0c
