@@ -1,10 +1,31 @@
-const adminRouter = require("express").Router();
+const router = require("express").Router();
 
 const User = require("../Models/userModel.js");
 const { verifyToken } = require("../utlis/generateToken.js");
 
+const AdminController = require('../Controllers/Admin/AdminController');
+const QuestionController = require('../Controllers/Admin/QuestionController');
+const ContestController = require('../Controllers/Admin/ContestController');
+
+router.get('/dashboard',AdminController.dashboard);
+router.get('/profile',AdminController.profile);
+router.get('/user',AdminController.user);
+router.get('/user-details',AdminController.user_details);
+
+router.get('/question',QuestionController.index);
+router.get('/question-details',QuestionController.show);
+router.post('/store-question',QuestionController.store);
+router.post('/update-question',QuestionController.update);
+router.post('/delete-question',QuestionController.delete);
+router.get('/contest',ContestController.index);
+router.get('/contest-details',ContestController.show);
+
+router.get('/setting',AdminController.setting);
+
+router.post('/logout',AdminController.logout);
+
 //GET ALL USERS 
-adminRouter.get("/allusers", async( req, res )=>{
+router.get("/allusers", async( req, res )=>{
     const token = req.headers.authorization;
     if(!token){
         res.status(401).json({ message : "Authorization token is missing" });
@@ -26,7 +47,7 @@ adminRouter.get("/allusers", async( req, res )=>{
 });
 
 //DELETE ALL USERS
-adminRouter.delete("/allusers",async(req,res)=>{
+router.delete("/allusers",async(req,res)=>{
     const token = req.headers.authorization;
     if(!token){
         res.status(401).json({ message : "Authorization token is missing" });
@@ -51,4 +72,4 @@ adminRouter.delete("/allusers",async(req,res)=>{
     }
 })
 
-module.exports = adminRouter;
+module.exports = router;
