@@ -19,8 +19,12 @@ router.get('/question-details',QuestionController.show);
 router.post('/store-question',QuestionController.store);
 router.post('/update-question',QuestionController.update);
 router.post('/delete-question',QuestionController.delete);
+
 router.get('/contest',ContestController.index);
 router.get('/contest-details',ContestController.show);
+router.post('/store-contest',ContestController.store);
+router.post('/update-contest',ContestController.update);
+router.post('/delete-contest',ContestController.delete);
 
 router.get('/setting',AdminController.setting);
 

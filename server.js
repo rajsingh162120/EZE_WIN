@@ -39,7 +39,7 @@ app.use('/',express.static(path.join(process.cwd(), 'public')));
 app.use('/admin',express.static(path.join(process.cwd(), 'public')));
 app.use('/admin-auth',express.static(path.join(process.cwd(), 'public')));
 app.use('/admin/question',express.static(path.join(process.cwd(), 'public')));
-
+app.use('/admin/contest',express.static(path.join(process.cwd(), 'public')));
 hbs.registerPartials(path.join(process.cwd(), 'views/partials'));
 
 hbs.registerHelper("i", function(value)

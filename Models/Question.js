@@ -31,7 +31,13 @@ const QuestionSchema = new Schema({
     },
 }, {
     timestamps: true
-})
+});
+
+
+QuestionSchema.virtual("video_path").get(function () {
+    https://ezewin-files.s3.ap-south-1.amazonaws.com/MTUwXzE2OTgyOTgwNDYxNDlfNTAw.mp4
+  return `https://ezewin-files.s3.ap-south-1.amazonaws.com/${this.video} `;
+});
 
 const Question = model('Question', QuestionSchema)
 module.exports = Question

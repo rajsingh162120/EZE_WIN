@@ -55,9 +55,9 @@
                     <td>{{this.option_C}}</td>
                     <td>{{this.option_D}}</td>
                     <td>{{this.answer}}</td>
-                    <td>{{this.video}}</td>
+                    <td><a href="{{this.video_path}}" target="_blank">{{this.video}}</a></td>
                     <td>
-                    	<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addModal" data-id="{{this._id}}" data-name="{{this.name}}" data-option-a="{{this.option_A}}" data-option-b="{{this.option_B}}" data-option-c="{{this.option_C}}" data-option-d="{{this.option_D}}" data-answer="{{this.answer}}" data-video="{{this.video}}">
+                    	<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addModal" data-id="{{this._id}}" data-name="{{this.name}}" data-option-a="{{this.option_A}}" data-option-b="{{this.option_B}}" data-option-c="{{this.option_C}}" data-option-d="{{this.option_D}}" data-answer="{{this.answer}}" data-video="{{this.video}}" data-link="{{this.video_path}}">
                           <i class="fa fa-edit"></i>
                       </button>
 
@@ -126,7 +126,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="video" class="col-form-label">Video:<a href="" id="video"></a>
+            <label for="video" class="col-form-label">Video:<a href="" id="video" target="_blank"></a>
             <input type="file" name="file" accept="video/*" class="form-control video" required>
           </div>
           <input type="hidden" name="id" id="edit-id">
@@ -209,13 +209,14 @@
       $('#option_C').val(button.data('option-c'));
       $('#option_D').val(button.data('option-d'));
       $('#answer').val(button.data('answer'));
-      $('#video').attr('href',button.data('video'));
-      $('#video').text(button.data(''));
-      $('#video').text(button.data('video'));
+      $('#video').attr('href','');
+      $('#video').text('');
       $("#form").prop('action','/admin/store-question');
       if(button.data('id') != null){
           $(".video").prop('required',false);
           $(".add-form").prop('action','/admin/update-question');
+          $('#video').attr('href',button.data('link'));
+          $('#video').text(button.data('video'));
       }
     });
 

@@ -7,7 +7,8 @@ const UserSchema = new mongoose.Schema({
     Phone_Number : {type: Number, required: true, unique: true},
     Gender : {type:String, enum:["Male", "Female", "Other"] },
     Password : {type: String, required: true},
-    isAdmin : {type: Boolean, required:false, default: false}
+    isAdmin : {type: Boolean, required:false, default: false},
+    wallet : {type: Number, required:true, default: 0},
 },{
     timestamps: true
 });
