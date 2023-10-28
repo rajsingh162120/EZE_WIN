@@ -29,13 +29,17 @@ const QuestionSchema = new Schema({
         type: String,
         required: true
     },
+    status: {
+        type: String,
+        required: true,
+        default: 'Unused'
+    },
 }, {
     timestamps: true
 });
 
 
 QuestionSchema.virtual("video_path").get(function () {
-    https://ezewin-files.s3.ap-south-1.amazonaws.com/MTUwXzE2OTgyOTgwNDYxNDlfNTAw.mp4
   return `https://ezewin-files.s3.ap-south-1.amazonaws.com/${this.video} `;
 });
 

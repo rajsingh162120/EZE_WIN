@@ -3,30 +3,41 @@ const express = require("express");
 const router = express.Router();
 
 const User = require("../Models/userModel.js");
+
 const { verifyToken } = require("../utlis/generateToken.js");
 
 const AdminController = require('../Controllers/Admin/AdminController');
 const QuestionController = require('../Controllers/Admin/QuestionController');
 const ContestController = require('../Controllers/Admin/ContestController');
+const SettingController = require('../Controllers/Admin/SettingController');
 
 router.get('/dashboard',AdminController.dashboard);
 router.get('/profile',AdminController.profile);
+router.post('/update-profile',AdminController.update_profile);
 router.get('/user',AdminController.user);
-router.get('/user-details',AdminController.user_details);
+router.get('/user-details/:id',AdminController.user_details);
+router.post('/store-user',AdminController.store);
+router.post('/update-user',AdminController.update);
+router.post('/delete-user',AdminController.delete)
 
 router.get('/question',QuestionController.index);
-router.get('/question-details',QuestionController.show);
+router.get('/question-details/:id',QuestionController.show);
 router.post('/store-question',QuestionController.store);
 router.post('/update-question',QuestionController.update);
 router.post('/delete-question',QuestionController.delete);
 
 router.get('/contest',ContestController.index);
-router.get('/contest-details',ContestController.show);
+router.get('/contest-details/:id',ContestController.show);
 router.post('/store-contest',ContestController.store);
 router.post('/update-contest',ContestController.update);
 router.post('/delete-contest',ContestController.delete);
+router.get('/join-contest/:id',ContestController.join_contest);
 
-router.get('/setting',AdminController.setting);
+router.post('/store-winning',ContestController.store_winning);
+router.post('/delete-winning',ContestController.delete_winning);
+
+router.get('/setting',SettingController.index);
+router.post('/store-setting',SettingController.store);
 
 router.post('/logout',AdminController.logout);
 

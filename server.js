@@ -18,7 +18,9 @@ const paymentRouter = require("./Routes/paymentRoute.js");
 const adminAuthRouter = require("./Routes/adminAuthRoute.js");
 const adminRouter = require("./Routes/adminRoute.js");
 const QuizRouter = require("./Routes/QuizRouter.js");
+const apiRouter = require("./Routes/apiRoute.js");
 const { isUnAuthenticated, isAuthenticated } = require('./middleware/authMiddleware');
+const auth = require('./middleware/authMiddlewares');
 
 // Connection to the Database
 connectDatabase();
@@ -47,6 +49,11 @@ hbs.registerHelper("i", function(value)
     return parseInt(value) + 1;
 });
 
+hbs.registerHelper("diffForHumans", function(value)
+{
+    return value.toLocaleString();
+});
+
 app.set('view engine', 'html');
 app.engine('html', require('hbs').__express);
 
@@ -63,13 +70,13 @@ app.use("/",frontendRouter);
 app.use("/admin-auth",isUnAuthenticated,adminAuthRouter);
 
 //Admin
-app.use("/admin",adminRouter);
+app.use("/admin",isAuthenticated,adminRouter);
 
-//ADMIN
-app.use("/api/admin",adminRouter);
 
 // ROUTES
-app.use("/api", userRouter);
+app.use("/guest-api", apiRouter);
+app.use("/api", auth, apiRouter);
+app.use("/apis", apiRouter);
 app.use("/quiz",QuizRouter);
 
 // PAYMENT ROUTES

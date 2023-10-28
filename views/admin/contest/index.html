@@ -49,8 +49,10 @@
                     <td>{{this.name}}</td>
                     <td>{{this.entry_fee}}</td>
                     <td>{{this.max_members}}</td>
-                    <td>{{this.starts_at}}</td>
+                    <td>{{diffForHumans this.starts_at}}</td>
                     <td>
+                      <a href="/admin/contest-details/{{this._id}}" target="_blank"  class="btn btn-sm btn-warning"><i class="fa fa-eye"></i></a>
+
                     	<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addModal" data-id="{{this._id}}" data-name="{{this.name}}" data-entry="{{this.entry_fee}}" data-members="{{this.max_members}}" data-starts="{{this.starts_at}}">
                           <i class="fa fa-edit"></i>
                       </button>
@@ -97,15 +99,15 @@
           <div class="form-group">
             <label for="entry_fee" class="col-form-label">Entry Fee:</label>
             <div class="input-group">
-            	<input type="text" name="entry_fee" class="form-control" id="entry_fee">
+            	<input type="text" name="entry_fee" class="form-control" id="entry_fee" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
             	<div class="input-group-append">
-                    <span class="input-group-text">Rs</span>
-                </div>
+                <span class="input-group-text">Rs</span>
+              </div>
             </div>
           </div>
           <div class="form-group">
             <label for="max_members" class="col-form-label">Max Members:</label>
-            <input type="text" name="max_members" class="form-control" id="max_members">
+            <input type="text" name="max_members" class="form-control" id="max_members" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
           </div>
           <div class="form-group">
             <label for="starts_at" class="col-form-label">Starts at:</label>

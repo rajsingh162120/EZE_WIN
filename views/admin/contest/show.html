@@ -1,5 +1,240 @@
 {{> header}}
 
-<h1>Contest details Page</h1>
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Contest Details</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Contest Details</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3">
+
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+
+                <h3 class="profile-username text-center">{{contest.name}}</h3>
+
+                <ul class="list-group list-group-unbordered mb-3">
+                  <li class="list-group-item">
+                    <b>Entry Fee</b> <a class="float-right">{{contest.entry_fee}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Max Members</b> <a class="float-right">{{contest.max_members}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Starts at</b> <a class="float-right">{{diffForHumans contest.starts_at}}</a>
+                  </li>
+                </ul>
+                
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+          </div>
+          <!-- /.col -->
+          <div class="col-md-9">
+            <div class="card">
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item"><a class="nav-link active" href="#winners" data-toggle="tab">Winnings</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#members" data-toggle="tab">Members</a></li>
+                </ul>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="winners">
+                    <button class="btn btn-sm btn-success right" data-toggle="modal" data-target="#addModal">Add Winning</button>
+                    <div class="table-responsive">
+                      <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                          <tr>
+                            <th>Rank</th>
+                            <th>Winning Amount</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody class="test">
+                          {{#each contest.winnings}}
+                          <tr>
+                            <td>{{this.rank}}</td>
+                            <td>{{this.amount}}</td>
+                            <td>
+                              <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addModal" data-id="{{this._id}}" data-rank="{{this.rank}}" data-amount="{{this.amount}}">
+                              <i class="fa fa-edit"></i></button>
+
+                              <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal" data-id="{{this._id}}" data-action="delete"><i class="fa fa-trash"></i></button>
+                            </td>
+                          </tr>
+                          {{/each}}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <!-- /.tab-pane -->
+
+                  <div class="tab-pane" id="members">
+                      <div class="table-responsive">
+                        <table id="example1" class="table table-bordered table-striped">
+                          <thead>
+                          <tr>
+                            <th>S No</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                          </tr>
+                          </thead>
+                          <tbody class="test">
+                          {{#each contest.users}}
+                          <tr>
+                            <td>{{i @index}}</td>
+                            <td>{{this.Name}}</td>
+                            <td>{{this.Email}}</td>
+                            <td>{{this.Phone_Number}}</td>
+                          </tr>
+                          {{/each}}
+                          </tbody>
+                        </table>
+                      </div>
+                  </div>
+                  <!-- /.tab-pane -->
+
+                </div>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+<!-- Add Modal -->
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Contest</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/admin/store-winning" method="post" class="add-form" enctype="multipart/form-data">
+        <div class="modal-body">
+          <div class="error"></div>
+          <div class="form-group">
+            <label for="rank" class="col-form-label">Rank:</label>
+            <input type="text" name="rank" class="form-control" id="rank" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+          </div>
+          <div class="form-group">
+            <label for="amount" class="col-form-label">Winning Amount:</label>
+            <div class="input-group">
+              <input type="text" name="amount" class="form-control" id="amount" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+              <div class="input-group-append">
+                <span class="input-group-text">Rs</span>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" name="id" id="edit-id">
+          <input type="hidden" name="contest" value="{{contest._id}}">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" id="save-button">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Are you sure ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="text">You are going to permanently delete this item..</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" id="delete-button">Confirm Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 {{> footer}}
+
+
+<script>
+  $(document).ready(function(){
+    var id = '';
+    var action = '';
+    
+    $('#deleteModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget);
+      id = button.data('id');
+      $('#delete-id').val(id);
+      action= button.data('action');
+      $('#delete-button').removeClass('btn-success');
+      $('#delete-button').removeClass('btn-danger');
+      if(action == 'delete'){
+          $('#delete-button').addClass('btn-danger');
+          $('#delete-button').text('Confirm Delete');
+          $('.text').text('You are going to permanently delete this item..');
+      }else{
+          $('#delete-button').addClass('btn-success');
+          $('#delete-button').text('Confirm Restore');
+          $('.text').text('You are going to restore this item..');
+      }
+    });
+
+    $(document).on('click','#delete-button',function(){
+      var url = "/admin/delete-winning";
+      $.ajax({
+        url : url,
+        type: "POST",
+        data : {'id':id,'action':action},
+        success: function(data)
+        {
+          window.location.reload();
+        }
+      });
+    });
+
+    $('#addModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget);
+      $('#edit-id').val(button.data('id'));
+      $('#rank').val(button.data('rank'));
+      $('#amount').val(button.data('amount'));;
+    });
+
+  });
+</script>
+
+</body>
+</html>

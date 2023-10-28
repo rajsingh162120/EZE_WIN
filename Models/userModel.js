@@ -7,20 +7,14 @@ const UserSchema = new mongoose.Schema({
     Phone_Number : {type: Number, required: true, unique: true},
     Gender : {type:String, enum:["Male", "Female", "Other"] },
     Password : {type: String, required: true},
+    otp : {type: String},
     isAdmin : {type: Boolean, required:false, default: false},
     wallet : {type: Number, required:true, default: 0},
+    address : {type: String, required:false},
+    photo : {type: String, required:false},
 },{
     timestamps: true
 });
-
-const TimerSchema = mongoose.Schema({
-    UserId : { type : String, required : true },
-    Name : { type : String, required : true },
-    TimeElapsed : { type : String, required : true },
-    Timestamps: {type : Date}
-})
-
-
 
 
 //REGISTER
@@ -36,6 +30,11 @@ UserSchema.pre("save", async function (next) {
 UserSchema.methods.matchPassword = async function (enterPassword) {
     return await bcrypt.compare(enterPassword, this.Password)
 };
+
+UserSchema.virtual("photo_path").get(function () {
+  return `https://ezewin-files.s3.ap-south-1.amazonaws.com/${this.photo} `;
+});
+
 
 const User = mongoose.model("User",UserSchema);
 module.exports = User;

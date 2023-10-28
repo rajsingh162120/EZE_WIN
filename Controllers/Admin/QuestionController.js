@@ -1,12 +1,14 @@
 const Question = require("../../Models/Question.js");
+const Setting = require("../../Models/Setting.js");
 const AWS = require('aws-sdk');
 const { UniqueString, UniqueNumber, UniqueStringId,UniqueNumberId,
         UniqueOTP,UniqueCharOTP,HEXColor,uuid } = require('unique-string-generator');
 
 module.exports = {
 	index : async (req, res) => {
+		const setting = await Setting.findOne().skip(0);
 		const questions = await Question.find();
-		res.render('admin/question/index',{questions});
+		res.render('admin/question/index',{questions,setting});
 	},
 
 	show : async (req, res) => {
@@ -18,7 +20,7 @@ module.exports = {
 		const str = req.files.file.mimetype;
 		const extension = str.substring(str.indexOf("/") + 1);
 		const filename = UniqueString() + "." + extension;
-		const {name,option_A,option_B,option_C,option_D,answer} = req.body
+		const {name,option_A,option_B,option_C,option_D,answer} = req.body;
 		const question = new Question({
 			name:name,
 			option_A:option_A,
@@ -64,9 +66,9 @@ module.exports = {
 		var filename = question.video;
 		if(req.files){
 			AWS.config.update({
-	        accessKeyId: process.env.AWS_ACCESS_KEY_ID, // Access key ID
-	        secretAccesskey: process.env.AWS_SECRET_ACCESS_KEY, // Secret access key
-	        region: process.env.AWS_REGION //Region
+		        accessKeyId: process.env.AWS_ACCESS_KEY_ID, // Access key ID
+		        secretAccesskey: process.env.AWS_SECRET_ACCESS_KEY, // Secret access key
+		        region: process.env.AWS_REGION //Region
 		    });
 		    const s3 = new AWS.S3();
 		    const params = {
